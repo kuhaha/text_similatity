@@ -48,5 +48,11 @@ def word_set(text, filter={}, weighted=False):
 Scoring
 """
 
-def 
+def count_score(raw, cutoff=0.5):
+    """ returns score by counting number of elements exceeding the cutoff
+    raw: input data, m x n array of floats [0,1] 
+    cutoff: threshold, float
+    
+    """
+    pass
 
