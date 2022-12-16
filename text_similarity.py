@@ -28,11 +28,25 @@ def simpson_similarity(x, y):
     return  simpson_coefficient(x, y)
 
 """
-Transformer
+Transformers
 """
 
-def word_seq(text, weighted=False):
+def word_seq(text, filter={}, weighted=False):
+    """" transforms text to a sequence of words """"
     pass
 
-def word_set(text, weighted=False):
+def word_bag(text, filter={}, weighted=False):
+    """" transforms text to a bag (allowing duplicates) of words """"
     pass
+
+def word_set(text, filter={}, weighted=False):
+    """" transforms text to a set (removing duplicates) of words """"
+    bag = word_bag(text, filter=filter, wrighted)
+    return set(bag)
+
+"""
+Scoring
+"""
+
+def 
+
