@@ -7,7 +7,7 @@ class Scorer:
         self.cutoff = cutoff
         
     def count_score(self, data):
-        """ wrapper for built-in function len for 2-d list `data` """
+        """ count based scoring for 2-d list `data` """
         count = lambda x : sum([len(s) for s in x])
         m = count(data)
         p = count([[x for x in a if x>self.cutoff] for a in data])
