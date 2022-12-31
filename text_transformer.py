@@ -4,20 +4,20 @@ Transformers
 import MeCab
 from janome.tokenizer import Tokenizer
 
-def para_seq(text, sep=None, limit=10):
-    """ transforms `text` to a sequence of paragraphs 
+def para_seq(doc, sep=None, limit=10):
+    """ transforms `doc` to a sequence of paragraphs 
     """
     if sep is None:
-        lines = text.splitlines()
+        lines = doc.splitlines()
     else:
-        lines = text.split(sep)
+        lines = doc.split(sep)
    
     lines = [p.strip() for p in lines if len(p.strip())>limit]
     return lines
 
 def sent_seq(text, sep=None, limit=5):
     """ transforms `text` to a sequence of sentences
-       (replace all separators to newline symbols the call `para_seq()`)
+       (replace all separators to newlines the call `para_seq()`)
     """
     if sep is None:
         sep = ['.', '?', '!', '。', '？', '！']
@@ -31,10 +31,10 @@ def sent_seq(text, sep=None, limit=5):
 
 def word_seq(text, parser=None):
     """ transforms `text` to a sequence of words
-      @params: 
-      e.g. Default: 'hello, world' => ['hello','world']
-         parser='mecab' or parser='janome'( use `create_parser`)
+      e.g. 'hello, world' => ['hello','world']
          　'吾輩は猫である'=>['吾輩','は','猫','で','ある']
+        (parser='mecab' or parser='janome' created by `create_parser`)
+      
     """
     
     if parser is None:
@@ -58,7 +58,7 @@ def create_parser(worker='janome', parts_of_speech=['名詞'], stop_words=[]):
         while node:
             word = node.surface
             if node.feature.split(",")[0] == u"動詞": 
-                 word=node.feature.split(",")[6]
+                 word = node.feature.split(",")[6]
                     
             hinshi = node.feature.split(",")[0]
             if hinshi in parts_of_speech and word not in stop_words:

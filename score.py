@@ -1,5 +1,5 @@
 """
-Scoring
+Scoring Functions
 """
 class Scorer:
     def __init__(self):
@@ -25,9 +25,8 @@ class Scorer:
         return sum(targets)/float(len(data)) 
     
 
-def score(data, cutoff=0.5, scorer='count'):
-    """
-    
+def score(data, scorer='count', cutoff=0.5):
+    """ common interface for calling a scoring function by name (`scorer`)   
     """
     func = getattr(Scorer(), f'{scorer}_score')
     return func(data, cutoff=cutoff)
