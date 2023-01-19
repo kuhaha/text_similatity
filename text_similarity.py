@@ -60,26 +60,32 @@ LCSeq: Longest Common Subsequence
 
 Local implementation using dynamic programming
 """
+def _equal(x, y) : return x==y
 
-def LCSeq(a, b, sizeOnly=True):
+def LCSeq(a, b, check=None, size_only=True):
     """ Finding the longest common subsequence of a[0..m-1] and b[0..n-1]
     """
-
+    
+    check= _equal if check is None else check
+    
     m, n = len(a), len(b)
     c = np.zeros((m + 1, n + 1), dtype=int)
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            if a[i-1] == b[j-1]:
+            if matchMethod(a[i-1], b[j-1]):
+            # if a[i-1] == b[j-1]:
                 c[i][j] = c[i-1][j-1] + 1
             else:
                 c[i][j] = max(c[i][j-1], c[i-1][j])
-    if sizeOnly:
+    if size_only:
         return c[-1][-1]
     
+    # continue to find  the LCS subsequence
     s = []
     i, j = m, n            
     while i > 0 and j > 0:
-        if a[i-1] == b[j-1]:
+        if check(a[i-1], b[j-1]):
+        # if a[i-1] == b[j-1]:
             s = [a[i-1]] + s
             i, j = i-1, j-1
         elif c[i-1][j] >= c[i][j-1]:
@@ -102,9 +108,9 @@ cf.  https://docs.python.org/3/library/difflib.html
 """
 from difflib import SequenceMatcher
 
-def LCStr(a, b, sizeOnly=True):
+def LCStr(a, b, size_only=True):
     match = SequenceMatcher(None, a, b).find_longest_match()
-    if sizeOnly:
+    if size_only:
         return match.size
     else:
         return a[match.a: match.a + match.size]
@@ -112,24 +118,25 @@ def LCStr(a, b, sizeOnly=True):
 """ 
  Local implementation using dynamic programming
 """
-def LCStr2(a, b, sizeOnly=True):
+def LCStr2(a, b, size_only=True):
     """ Finding length of longest common substring of a[0..m-1] and b[0..n-1]
     """
     m, n = len(a), len(b)      
     # `c` is the (m+1)x(n+1) table with zero value initially in each cell    
     c = np.zeros((m + 1, n + 1), dtype=int)
-    result = 0
+    size = 0
     # Following steps to build c[m+1][n+1] in bottom up fashion
     for i in range(1, m + 1):
         for j in range(1, n + 1):
             if (a[i-1] == b[j-1]):
                 c[i][j] = c[i-1][j-1] + 1
-                result = max(result, c[i][j])
+                size = max(size, c[i][j])
             else:
                 c[i][j] = 0
-    if sizeOnly:
-        return result
+    if size_only:
+        return size
 
+    # continue to find  the LCS substring
     s = []
     i, j = m, n            
     while i > 0 and j > 0:
@@ -144,3 +151,5 @@ def LCStr2(a, b, sizeOnly=True):
     s = ''.join(s) if type(a) is str else s
     s = tuple(s) if type(a) is tuple else s
     return s
+
+
